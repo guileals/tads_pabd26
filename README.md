@@ -51,3 +51,7 @@ WHERE table_schema = 'public'
   AND table_type = 'BASE TABLE';
 ```
 
+# 7. Praticar o básico
+
+O arquivo [postgres_basics.sql](postgres_basics.sql) traz um exemplo simples de tabela, inserção, consulta, atualização, exclusão e transação para testar no psql.
+
