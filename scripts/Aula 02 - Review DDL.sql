@@ -61,3 +61,46 @@ references departmento(number)
 -- no action, set null, cascade, set default
 on delete no action
 on update cascade;
+
+-- Add a new table
+create table project(
+    code serial primary key,
+    name varchar(50) not null,
+    start_date date,
+    value numeric(10,2) default 0
+);
+
+-- Add a new column
+alter table project
+add column manager_cpf char(11);
+
+-- Rename a column
+alter table project
+rename column manager_cpf to manager_cpf_2;
+
+-- Change a column type
+alter table project
+alter column value type numeric(12,2);
+
+-- Add a default value
+alter table project
+alter column start_date set default current_date;
+
+-- Drop a default value
+alter table project
+alter column start_date drop default;
+
+-- Add a unique constraint
+alter table project
+add constraint project_name_unique unique (name);
+
+-- Drop a unique constraint
+alter table project
+drop constraint if exists project_name_unique;
+
+-- Drop a column
+alter table project
+drop column if exists manager_cpf_2;
+
+-- Drop table
+drop table if exists project cascade;
