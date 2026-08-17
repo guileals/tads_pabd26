@@ -58,6 +58,26 @@ alter table funcionario
 add constraint funcionario_department_number_fk
 foreign key (department_number)
 references departmento(number)
+
+-- no action, set null, cascade, set default
+on delete no action
+on update cascade;
+
+-- Add a new constraint foreign key
+alter table funcionario
+add constraint funcionario_cpf_supervisor_fk
+foreign key (cpf_supervisor)
+references funcionario(cpf)
+-- no action, set null, cascade, set default
+on delete set null
+on update cascade;
+
+-- Add a new constraint foreign key
+alter table departmento
+add constraint departmento_manager_cpf_fk
+foreign key (manager_cpf)
+references funcionario(cpf)
+
 -- no action, set null, cascade, set default
 on delete no action
 on update cascade;
