@@ -23,16 +23,3 @@ Isso evita que existam registros inconsistentes no banco.
 ## Arquivo alterado
 
 - [scripts/Aula 02 - Review DDL.sql](scripts/Aula%2020-%20Review%20DDL.sql)
-
-## Próximo passo
-
-Agora eu posso subir essas alterações para o repositório com Git, seguindo o fluxo padrão:
-
-```bash
-git status
-git add .
-git commit -m "Adiciona FKs para supervisor e gerente"
-git push
-```
-
-Essas mudanças deixaram o script mais completo e coerente com a modelagem de dados da aula.
