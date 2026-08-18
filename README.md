@@ -51,3 +51,8 @@ WHERE table_schema = 'public'
   AND table_type = 'BASE TABLE';
 ```
 
+# 7. Comando úteis do psql
+
+Listar todas as tabelas: \dt
+Mostrar a descrição de uma tabela: \d TABELA
+Executar um arquivo: \i PATH
