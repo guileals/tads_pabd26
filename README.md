@@ -31,7 +31,7 @@ SQL
 
 # 5. Conectar com o novo usuário
 ```bash
-psql -h 127.0.0.1 -p 5432 -U admin -d pabd
+psql -h 127.0.0.1 -U admin -d pabd
 ```
 
 -h host

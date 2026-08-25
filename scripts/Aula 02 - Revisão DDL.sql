@@ -27,8 +27,6 @@ create table departamento(
     data_ini date not null
 );
 
-/*
-
 -- Adicionar restrição FOREIGN KEY
 alter table funcionario
 add constraint funcionario_num_dep_fk
@@ -36,7 +34,10 @@ foreign key (numero_departamento)
 references departamento(numero)
 -- no action, set null, restrict, cascade, set default
 on delete no action
-on update cascade;
+on update cascade;SELECT
+    numero_departamento,
+    COUNT(*) AS quantidade_funcionarios
+FROM funcionario
 
 -- TO DO: adicionar restrições FK para cpf_supervisor e cpf_gerente
 alter table funcionario
@@ -54,6 +55,8 @@ references funcionario(cpf)
 -- no action, set null, restrict, cascade, set default
 on delete set null
 on update cascade;
+
+/*
 
 -- Adicionar um novo atributo
 alter table departamento
