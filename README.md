@@ -56,3 +56,46 @@ WHERE table_schema = 'public'
 Listar todas as tabelas: \dt
 Mostrar a descrição de uma tabela: \d TABELA
 Executar um arquivo: \i PATH
+
+# 8. Usando `pg_restore` para criar o banco de dados `dvdrental`
+
+Faça o donwload no link (https://neon.com/postgresqltutorial/dvdrental.zip). 
+
+Após descompactar, coloque o arquivo `dvdrental.tar` na pasta `utils`.
+
+```bash
+sudo -i -u postgres
+psql
+```
+
+Uma vez dentro do prompt do PostgreSQL, defina uma senha para o usuário `postgres`:
+
+```sql
+ALTER USER postgres PASSWORD 'postgres';
+```
+
+Sair do psql e do sudo. Criar o banco de dados `dvdrental`:
+
+```bash
+psql -h 127.0.0.1 -U postgres
+```
+
+Dentro do psql: 
+
+```sql
+CREATE DATABASE dvdrental;
+```
+
+Sair do psql. Depois, no terminal:
+
+```bash
+pg_restore -h 127.0.0.1 -U postgres -d dvdrental utils/dvdrental.tar 
+```
+
+Para testar, entre no `psql` e digite:
+
+```bash
+\c dvdrental
+```
+
+Para exibir todas as tabelas: `\dt`

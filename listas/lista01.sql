@@ -88,3 +88,5 @@ INSERT INTO orders_products (order_id, product_id, quantity, unit_price) VALUES
     (8, 6, 1,  499.90),
     (9, 3, 1,  349.90),
     (10, 1, 1, 4500.00);
+
+    -- select id, order_date at time zone 'America/Fortaleza' from orders order by order_date;
