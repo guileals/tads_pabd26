@@ -5,6 +5,9 @@
 ```bash
 mkdir api
 cd api
+sudo apt update
+sudo apt install python3
+python -m pip install --upgrade pip
 python3 -m venv env
 source env/bin/activate
 ```
@@ -12,8 +15,7 @@ source env/bin/activate
 ## Criar novo projeto Django
 
 ```bash
-mkdir dvdrental
-cd dvdrental
+pip install django
 django-admin startproject dvdrental
 cd dvdrental
 ```
@@ -48,16 +50,35 @@ DATABASES = {
         'NAME': 'dvdrental',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        'HOST': 'localhost',
+        'HOST': '127.0.0.1',
         'PORT': '5432',
     }
 }
 ```
 
-## Mapear o banco existente
+## Verificar a conexão com o banco de dados
 
 ```bash
-python manage.py inspectdb
+python manage.py shell
+```
+
+No shell:
+
+```python
+from django.db import connection
+with connection.cursor() as cursor:
+    cursor.execute("SELECT current_database(), current_user, version()")
+    print(cursor.fetchone())
+```
+
+Para fechar o shell: CTRL + D
+
+## Mapear o banco existente
+
+Cuidado! Revise e reorganize o arquivo `models.py`
+
+```bash
+python manage.py inspectdb > backend/models.py
 ```
 
 ## Migrations
@@ -101,7 +122,7 @@ estejam instalados pelo `requirements.txt`.
 
 ## Testar a API
 
-Instale as dependências e inicie o servidor a partir da pasta `api/dvdrental`:
+Inicie o servidor a partir da pasta `api/dvdrental`:
 
 ```bash
 python -m pip install -r requirements.txt
