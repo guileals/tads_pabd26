@@ -1,3 +1,5 @@
 utils/pgadmin
 utils/postgres
 desafios/f1db-sql-postgresql.sql
+__pycache__/
+__init__.py
