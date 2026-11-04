@@ -19,3 +19,42 @@ BEGIN
     RETURN variavel;
 END;
 $$;
+
+-- Função que retorna o valor gasto por um determinado cliente 
+drop function if exists get_customer_total_spent;
+create or replace function get_customer_total_spent(
+    p_customer_id int
+)
+returns numeric
+language plpgsql
+STABLE
+as $$
+declare
+    v_total numeric;
+begin
+    if p_customer_id is null or p_customer_id <= 0 then
+        raise exception 'customer_id inválido: %', p_customer_id;
+    end if;
+
+    if not exists (
+        select 1 from customer where customer_id = p_customer_id
+    ) then
+        raise exception 'Cliente % não encontrado!', p_customer_id;
+    end if;
+
+    select coalesce(sum(amount), 0)
+    into v_total
+    from payment
+    where customer_id = p_customer_id;
+
+    return v_total;
+end;
+$$;
+
+select get_customer_total_spent(1);
+select get_customer_total_spent(-1);
+select get_customer_total_spent(9999);
+
+-- Função que retorna quantos filmes tem duração entre valores A e B?
+
+-- Função que retorna quais filmes tem duração entre valores A e B?
