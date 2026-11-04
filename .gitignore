@@ -3,3 +3,9 @@ utils/postgres
 desafios/f1db-sql-postgresql.sql
 __pycache__/
 __init__.py
+
+# git rm -r --cached --ignore-unmatch -- ':(glob)**/__pycache__' ':(glob)**/__init__.py'
+# git add .gitignore
+# git status
+# git commit -m "Ignora caches e arquivos __init__.py"
+# git push --force origin main
