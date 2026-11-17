@@ -22,19 +22,28 @@ from drf_spectacular.views import (
     SpectacularRedocView,
     SpectacularSwaggerView,
 )
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
+from rest_framework.permissions import AllowAny
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/', include('backend.urls')),
-    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    path("admin/", admin.site.urls),
+    path("api/", include("backend.urls")),
     path(
-        'api/docs/',
-        SpectacularSwaggerView.as_view(url_name='schema'),
-        name='swagger-ui',
+        "api/schema/",
+        SpectacularAPIView.as_view(permission_classes=[AllowAny]),
+        name="schema",
     ),
     path(
-        'api/redoc/',
-        SpectacularRedocView.as_view(url_name='schema'),
-        name='redoc',
+        "api/docs/",
+        SpectacularSwaggerView.as_view(
+            url_name="schema",
+            permission_classes=[AllowAny],
+        ),
+        name="swagger-ui",
     ),
+    path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
 ]

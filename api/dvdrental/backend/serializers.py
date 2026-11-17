@@ -20,6 +20,22 @@ from .models import (
     Store,
 )
 
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+            "id",
+            "username",
+            "first_name",
+            "last_name",
+            "email",
+        )
+        read_only_fields = fields
+
 
 class ActorSerializer(serializers.ModelSerializer):
     class Meta:

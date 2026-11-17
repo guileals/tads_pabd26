@@ -6,12 +6,31 @@ from . import serializers
 from . import models
 from . import services
 
+from rest_framework.generics import RetrieveAPIView
+from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
+from drf_spectacular.utils import (
+    OpenApiResponse,
+    extend_schema,
+)
 
-class ReadOnlyListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+class UserProfileView(RetrieveAPIView):
+    serializer_class = serializers.UserProfileSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user
+
+
+class ReadOnlyListViewSet(
+    mixins.ListModelMixin,
+    viewsets.GenericViewSet,
+):
     pagination_class = None
+    permission_classes = [IsAuthenticated]
 
 
 class ActorViewSet(ReadOnlyListViewSet):
+    permission_classes = [AllowAny]
     queryset = models.Actor.objects.all()
     serializer_class = serializers.ActorSerializer
 
@@ -57,6 +76,7 @@ class CustomerSpendingViewSet(ReadOnlyListViewSet):
 
 
 class FilmViewSet(ReadOnlyListViewSet):
+    permission_classes = [AllowAny]
     queryset = models.Film.objects.all()
     serializer_class = serializers.FilmSerializer
 
@@ -107,6 +127,23 @@ class RentalViewSet(ReadOnlyListViewSet):
     queryset = models.Rental.objects.all()
     serializer_class = serializers.RentalSerializer
 
+    def get_permissions(self):
+        if self.action == "register":
+            return [IsAdminUser()]
+
+        return [IsAuthenticated()]
+
+
+    @extend_schema(
+        request=serializers.RegisterRentalSerializer,
+        responses={
+            201: OpenApiResponse(
+                description=(
+                    "Aluguel e pagamento registrados."
+                ),
+            ),
+        },
+    )
     @action(detail=False, methods=["post"], url_path="register")
     def register(self, request):
         input_serializer = serializers.RegisterRentalSerializer(data=request.data)

@@ -238,7 +238,7 @@ python manage.py createsuperuser
 <!-- 
     username: pabd2026
     email: pabd2026@tads.ifrn
-    Senha: pabd2026
+    Senha: tadspabd
 -->
 
 ### Criar um usuário comum
@@ -252,7 +252,7 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 usuario = User.objects.create_user(
-    username="aluno_pabd",
+    username="alunopabd",
     password=getpass("Senha: "), #aluno2026
     first_name="Ana",
     last_name="Silva",
@@ -497,7 +497,7 @@ Clique em Try it out e informe as credenciais criadas:
 ```json
 {
   "username": "alunopabd",
-  "password": "alunopabd"
+  "password": "aluno2026"
 }
 ```
 
@@ -615,7 +615,7 @@ Autentique o administrador.
 ```json
 {
   "username": "pabd2026",
-  "password": "pabd2026"
+  "password": "tadspabd"
 }
 ```
 

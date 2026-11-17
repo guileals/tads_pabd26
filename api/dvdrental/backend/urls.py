@@ -2,6 +2,14 @@ from rest_framework.routers import DefaultRouter
 
 from . import views
 
+from django.urls import path
+
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+    TokenVerifyView,
+)
+
 router = DefaultRouter()
 router.register('actors', views.ActorViewSet, basename='actor')
 router.register('addresses', views.AddressViewSet, basename='address')
@@ -28,4 +36,26 @@ router.register('rentals', views.RentalViewSet, basename='rental')
 router.register('staff', views.StaffViewSet, basename='staff')
 router.register('stores', views.StoreViewSet, basename='store')
 
-urlpatterns = router.urls
+urlpatterns = [
+    path(
+        "auth/token/",
+        TokenObtainPairView.as_view(),
+        name="token_obtain_pair",
+    ),
+    path(
+        "auth/token/refresh/",
+        TokenRefreshView.as_view(),
+        name="token_refresh",
+    ),
+    path(
+        "auth/token/verify/",
+        TokenVerifyView.as_view(),
+        name="token_verify",
+    ),
+    path(
+        "auth/me/",
+        views.UserProfileView.as_view(),
+        name="user_profile",
+    ),
+] + router.urls
+
