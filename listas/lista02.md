@@ -17,7 +17,7 @@ A gerência quer um painel rápido para avaliar o desempenho dos funcionários. 
 - A quantidade total de locações (`rentals`) processadas por ele;
 - O valor total arrecadado através dos pagamentos que ele registrou.
 
-*Dica*: Use LEFT JOIN para não excluir funcionários recém-contratados que ainda não processaram locações, e COALESCE para tratar nulos como zero.
+_Dica_: Use LEFT JOIN para não excluir funcionários recém-contratados que ainda não processaram locações, e COALESCE para tratar nulos como zero.
 
 ---
 
@@ -29,13 +29,13 @@ O relatório de receita por categoria de filme é muito pesado, pois exige cruza
 
 ## Questão 03 - Otimizando Filmes Atrasados
 
-O sistema de cobrança roda a cada hora buscando locações que ainda não foram devolvidas (`return_date IS NULL`) para calcular multas. Como a tabela `rental` é grande e a maioria dos filmes já foi devolvida, um *Seq Scan* é muito caro. Crie um índice (parcial?) na tabela `rental` que indexe apenas as locações em aberto. Em seguida, escreva a consulta e use o `EXPLAIN ANALYZE` para provar que o índice está sendo utilizado.
+O sistema de cobrança roda a cada hora buscando locações que ainda não foram devolvidas (`return_date IS NULL`) para calcular multas. Como a tabela `rental` é grande e a maioria dos filmes já foi devolvida, um _Seq Scan_ é muito caro. Crie um índice (parcial?) na tabela `rental` que indexe apenas as locações em aberto. Em seguida, escreva a consulta e use o `EXPLAIN ANALYZE` para provar que o índice está sendo utilizado.
 
 ---
 
 ## Questão 04 - Busca Inteligente de Sinopses
 
-Os clientes reclamam que a busca por palavras-chave na descrição dos filmes (`description`) usando `LIKE '%palavra%'` está lenta e não encontra variações da palavra (ex: "act", "acting", "actor"). Crie um índice adequado para melhorar o desempenho na busca. Em seguida, escreva uma consulta par buscar *documentary* e *drama* na descrição. Use o `EXPLAIN ANALYZE` para provar que o índice está sendo utilizado.
+Os clientes reclamam que a busca por palavras-chave na descrição dos filmes (`description`) usando `LIKE '%palavra%'` está lenta e não encontra variações da palavra (ex: "act", "acting", "actor"). Crie um índice adequado para melhorar o desempenho na busca. Em seguida, escreva uma consulta par buscar _documentary_ e _drama_ na descrição. Use o `EXPLAIN ANALYZE` para provar que o índice está sendo utilizado.
 
 ---
 
@@ -51,13 +51,13 @@ Para otimizar essa consulta específica, crie um índice multicoluna na tabela `
 
 ## Questão 06 - Login Case-Insensitive
 
-O suporte técnico frequentemente busca clientes pelo e-mail, mas os atendentes não se preocupam com letras maiúsculas ou minúsculas (ex: buscam por `MARY.SMITH@...` quando o e-mail está gravado como `mary.smith@...`). Crie um **Índice Funcional** (Expression Index) na tabela `customer` que permita buscas rápidas e *case-insensitive* na coluna `email`. Crie uma consulta usando `EXPLAIN ANALYZE` para provar que o índice está sendo utilizado.
+O suporte técnico frequentemente busca clientes pelo e-mail, mas os atendentes não se preocupam com letras maiúsculas ou minúsculas (ex: buscam por `MARY.SMITH@...` quando o e-mail está gravado como `mary.smith@...`). Crie um **Índice Funcional** (Expression Index) na tabela `customer` que permita buscas rápidas e _case-insensitive_ na coluna `email`. Crie uma consulta usando `EXPLAIN ANALYZE` para provar que o índice está sendo utilizado.
 
 ---
 
 ## Questão 07 - Validação de Datas
 
-Ocorreu um bug no front-end que permitiu inserir locações onde a data de devolução (`return_date`) era *anterior* à data de locação (`rental_date`), gerando multas negativas. Crie um trigger `BEFORE INSERT OR UPDATE` na tabela `rental` que lance uma exceção (`RAISE EXCEPTION`) caso o `NEW.return_date` seja menor que o `NEW.rental_date`. Lembre-se de tratar o caso onde o `return_date` é `NULL` (o filme ainda está com o cliente). Realize 2 consultas teste para validar (sucesso/falha);
+Ocorreu um bug no front-end que permitiu inserir locações onde a data de devolução (`return_date`) era _anterior_ à data de locação (`rental_date`), gerando multas negativas. Crie um trigger `BEFORE INSERT OR UPDATE` na tabela `rental` que lance uma exceção (`RAISE EXCEPTION`) caso o `NEW.return_date` seja menor que o `NEW.rental_date`. Lembre-se de tratar o caso onde o `return_date` é `NULL` (o filme ainda está com o cliente). Realize 2 consultas teste para validar (sucesso/falha);
 
 ---
 
@@ -80,3 +80,9 @@ Para evitar contar as linhas da tabela `rental` toda vez que quisermos saber qua
 - Crie a tabela `customer_rental_stats` (`customer_id` PK, `total_rentals` INT DEFAULT 0).
 - Popule-a inicialmente com os dados atuais.
 - Crie uma trigger `AFTER INSERT` na tabela `rental` que, a cada nova locação, atualize (incremento `+1`) o contador do respectivo cliente na tabela de estatísticas (verifique a existência).
+
+---
+
+## Resolução
+
+[Acessar o arquivo SQL com a resolução](../resolucao/lista02.sql)
