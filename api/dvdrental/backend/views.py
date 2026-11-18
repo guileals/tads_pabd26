@@ -1,3 +1,4 @@
+from .filters import FilmFilter
 from rest_framework import mixins, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -12,6 +13,10 @@ from drf_spectacular.utils import (
     OpenApiResponse,
     extend_schema,
 )
+
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
+
 
 class UserProfileView(RetrieveAPIView):
     serializer_class = serializers.UserProfileSerializer
@@ -33,6 +38,26 @@ class ActorViewSet(ReadOnlyListViewSet):
     permission_classes = [AllowAny]
     queryset = models.Actor.objects.all()
     serializer_class = serializers.ActorSerializer
+
+    filter_backends = [
+        filters.SearchFilter,
+        filters.OrderingFilter,
+    ]
+
+    search_fields = [
+        "first_name",
+        "last_name",
+        # "^first_name" # first_name começando com o termo,
+        # "=first_name" # first_name igual ao termo, ignorando maiúsculas
+    ]
+
+    ordering_fields = [
+        "actor_id",
+        "first_name",
+        "last_name",
+    ]
+
+    ordering = ["first_name", "last_name", "actor_id"]
 
 
 class AddressViewSet(ReadOnlyListViewSet):
@@ -59,6 +84,32 @@ class CustomerViewSet(ReadOnlyListViewSet):
     queryset = models.Customer.objects.all()
     serializer_class = serializers.CustomerSerializer
 
+    filter_backends = [
+        filters.SearchFilter,
+        filters.OrderingFilter,
+        DjangoFilterBackend
+    ]
+
+    filterset_fields = [
+        "store_id",
+        "activebool"
+    ]
+
+    search_fields = [
+        "first_name",
+        "last_name",
+        "email",
+    ]
+
+    ordering_fields = [
+        "customer_id",
+        "first_name",
+        "last_name",
+        "create_date",
+    ]
+
+    ordering = ["customer_id"]
+
     # detail=True - ação é aplicada a um único objeto
     # rota criada - /api/customers/{pk}/total-spent
     @action(detail=True, methods=["get"], url_path="total-spent")
@@ -79,6 +130,29 @@ class FilmViewSet(ReadOnlyListViewSet):
     permission_classes = [AllowAny]
     queryset = models.Film.objects.all()
     serializer_class = serializers.FilmSerializer
+
+    filter_backends = [
+        filters.SearchFilter,
+        filters.OrderingFilter,
+        DjangoFilterBackend
+    ]
+
+    filterset_class = FilmFilter
+
+    search_fields = [
+        "title",
+        "description",
+    ]
+
+    ordering_fields = [
+        "film_id",
+        "title",
+        "rental_rate"
+        "length",
+        "release_year",
+    ]
+
+    ordering = ["title", "film_id"]
 
     def _validated_length_range(self, request):
         # request.query_params contém os parâmetros enviados na URL
@@ -133,14 +207,11 @@ class RentalViewSet(ReadOnlyListViewSet):
 
         return [IsAuthenticated()]
 
-
     @extend_schema(
         request=serializers.RegisterRentalSerializer,
         responses={
             201: OpenApiResponse(
-                description=(
-                    "Aluguel e pagamento registrados."
-                ),
+                description=("Aluguel e pagamento registrados."),
             ),
         },
     )

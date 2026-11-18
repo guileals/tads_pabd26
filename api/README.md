@@ -614,7 +614,7 @@ Autentique o administrador.
 
 ```json
 {
-  "username": "pabd2026",
+  "username": "admin",
   "password": "tadspabd"
 }
 ```
@@ -631,3 +631,14 @@ Repita com dados de negócio válidos.
 ```
 
 No primeiro caso, a permissão deve impedir que a operação chegue ao serviço. No segundo, o sucesso ainda depende das validações, da disponibilidade do exemplar e da procedure existente.
+
+Para listar todas as contas criadas, execute `python manage.py shell` e depois:
+
+```python
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+User.objects.filter().values(
+    "username", "date_joined", "is_superuser"
+)
+```

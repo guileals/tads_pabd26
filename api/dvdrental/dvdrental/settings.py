@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'backend',
     'rest_framework',
     'drf_spectacular',
+    'django_filters',
 ]
 
 REST_FRAMEWORK = {
